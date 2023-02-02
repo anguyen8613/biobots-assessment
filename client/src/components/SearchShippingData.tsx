@@ -30,7 +30,7 @@ const SearchShippingData = () => {
     const shippingLabel = getShippingLabel(value);
     setShippingLabel(shippingLabel);
     setSearchTerm(value);
-    inputRef.current.focus()
+    inputRef.current.focus();
   };
 
   const getShippingLabel = (label_id: string) => {
@@ -55,22 +55,24 @@ const SearchShippingData = () => {
               className='w-48 pl-2'
               ref={inputRef}
             />
-            {data.suggestions &&
-            <select
-              name={'shippingLabelId'}
-              onChange={handleDropDownChange}
-              // Size needs to be atleast 2 to accomodate the disabled option
-              size={data.suggestions.length > 2? data.suggestions.length + 1 : 2}
-              className='overflow-auto w-48 mt-1 pl-2 appearance-none'
-            >
-              <option disabled value='hidden value'></option>
-              {data.suggestions.map((item: shippingLabel) => (
-                <option key={item.label_id} value={item.label_id}>
-                  {item.label_id}
-                </option>
-              ))}
-            </select>
-}
+            {data.suggestions && (
+              <select
+                name={'shippingLabelId'}
+                onChange={handleDropDownChange}
+                // Size needs to be atleast 2 to accomodate the disabled option
+                size={
+                  data.suggestions.length > 2 ? data.suggestions.length + 1 : 2
+                }
+                className='overflow-auto w-48 mt-1 pl-2 appearance-none'
+              >
+                <option disabled value='hidden value'></option>
+                {data.suggestions.map((item: shippingLabel) => (
+                  <option key={item.label_id} value={item.label_id}>
+                    {item.label_id}
+                  </option>
+                ))}
+              </select>
+            )}
             {error && (
               <div className='text-red-700'>
                 No suggestions found for {debouncedSearch}
