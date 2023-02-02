@@ -9,7 +9,8 @@
   "scripts": {
     "start:ts": "tsc -w",
     "start:js": "nodemon build/app.js",
-    "start": "concurrently npm:start:*"
+    "start": "concurrently npm:start:*",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
