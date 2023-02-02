@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useRef } from 'react';
 import useSWR from 'swr';
 import { useDebounce } from '../hooks/useDebounce';
 import { shippingLabel } from '../interface/shippingLabel';
@@ -7,6 +7,8 @@ import ShippingDetail from './ShippingDetail';
 const SearchShippingData = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 500);
+
+  const inputRef: any = useRef();
 
   const [shippingLabel, setShippingLabel] = useState<shippingLabel>({
     label_id: '',
@@ -28,6 +30,7 @@ const SearchShippingData = () => {
     const shippingLabel = getShippingLabel(value);
     setShippingLabel(shippingLabel);
     setSearchTerm(value);
+    inputRef.current.focus()
   };
 
   const getShippingLabel = (label_id: string) => {
@@ -50,21 +53,29 @@ const SearchShippingData = () => {
               value={searchTerm}
               autoFocus
               className='w-48 pl-2'
+              ref={inputRef}
             />
+            {data.suggestions &&
             <select
               name={'shippingLabelId'}
               onChange={handleDropDownChange}
-              size={data.suggestions?.length || 1}
+              // Size needs to be atleast 2 to accomodate the disabled option
+              size={data.suggestions.length > 2? data.suggestions.length + 1 : 2}
               className='overflow-auto w-48 mt-1 pl-2 appearance-none'
             >
-              <option hidden value='hidden value'></option>
-              {data.suggestions?.map((item: shippingLabel) => (
+              <option disabled value='hidden value'></option>
+              {data.suggestions.map((item: shippingLabel) => (
                 <option key={item.label_id} value={item.label_id}>
                   {item.label_id}
                 </option>
               ))}
             </select>
-            {error && <div className='text-red-700'>No suggestions found for {debouncedSearch}</div>}
+}
+            {error && (
+              <div className='text-red-700'>
+                No suggestions found for {debouncedSearch}
+              </div>
+            )}
           </div>
         </div>
       </div>
