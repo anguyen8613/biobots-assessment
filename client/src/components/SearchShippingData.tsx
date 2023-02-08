@@ -41,7 +41,7 @@ const SearchShippingData = () => {
 
   return (
     <div className='w-screen h-screen grid grid-rows-1 md:grid-cols-2'>
-      <div className='w-full h-full centered md:h-screen mt-40 ml-60'>
+      <div className='w-full h-full flex justify-end mt-40 mr-20'>
         <div className='flex'>
           <label htmlFor='searchTerm' className='mr-2 text-lg font-bold'>
             Search For Shipping Label Id:
@@ -59,10 +59,8 @@ const SearchShippingData = () => {
               <select
                 name={'shippingLabelId'}
                 onChange={handleDropDownChange}
-                // Size needs to be atleast 2 to accomodate the disabled option
-                size={
-                  data.suggestions.length > 2 ? data.suggestions.length + 1 : 2
-                }
+                // Add 1 to size for the disabled option
+                size={data.suggestions.length + 1}
                 className='overflow-auto w-48 mt-1 pl-2 appearance-none'
               >
                 <option disabled value='hidden value'></option>
@@ -82,7 +80,7 @@ const SearchShippingData = () => {
         </div>
       </div>
       {shippingLabel.label_id !== '' && (
-        <div className='w-full h-full centered md:h-screen mt-40 ml-60'>
+        <div className='w-full h-3/5 centered mt-40 ml-20'>
           <ShippingDetail shippingLabel={shippingLabel} />
         </div>
       )}

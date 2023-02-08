@@ -19,23 +19,25 @@ export const getByLabelId = async (req: Request, res: Response) => {
   }
 };
 
-export const suggestLabelIds = async(req: Request, res: Response) =>{
+export const suggestLabelIds = async (req: Request, res: Response) => {
   const labelId = req.params.labelId.toLowerCase();
-  //console.log("API CALLED")
 
-  const filteredData = shippingData.reduce((filtered:any, item) => {
-    if(item.label_id.toLowerCase().startsWith(labelId)){
-      filtered.push({ label_id: item.label_id, shipping_tracking_code: item.shipping_tracking_code});
+  const filteredData = shippingData.reduce((filtered: any, item) => {
+    //use includes instead?
+    if (item.label_id.toLowerCase().startsWith(labelId)) {
+      filtered.push({
+        label_id: item.label_id,
+        shipping_tracking_code: item.shipping_tracking_code,
+      });
     }
     return filtered;
-  }, [])
+  }, []);
 
-  if(filteredData.length === 0){
-    return res.status(404).json({error: `${labelId} not found`})
+  if (filteredData.length === 0) {
+    return res.status(404).json({ error: `${labelId} not found` });
   }
 
-// setTimeout(() => {
-    res.json({ suggestions: filteredData });
-// }, 2000)
-  
-}
+  // setTimeout(() => {
+  res.json({ suggestions: filteredData });
+  // }, 2000)
+};
